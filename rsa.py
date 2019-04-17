@@ -8,12 +8,21 @@ class Rsa(object):
         self.message = message
         self.p = None
         self.q = None
-        self.n = Nome'''
+        self.n = None'''
+
+    def euclids_algorithm(a, b):
+        rest = 1
+        while b != 0:
+            rest = a % b
+            a = b
+            b = rest
+        return a
 
     def is_prime(num):
         if num == 2:
             return True
         if num < 2 or num % 2 == 0:
+
             return False
         for n in range(3, int(num**0.5)+2, 2):
             if num % n == 0:
@@ -22,7 +31,7 @@ class Rsa(object):
 
     def generate_prime():
         while True:
-            x = randrange(1,1000)
+            x = randrange(1,200)
             if(Rsa.is_prime(x) == True):
                 return x
 
@@ -33,9 +42,16 @@ class Rsa(object):
 
             if p != q:
                 break
+
         n = p * q
         phi = (p-1) * (q-1)
-        e = randrange(2 , phi)
+
+        # Generate e |1 < e < phi and coprime
+        while True:
+            e = randrange(2 , phi)
+            if ((Rsa.euclids_algorithm(e, phi) == 1) and (Rsa.is_prime(e) == True)):
+                break
+        print(p,q,e)
 
 
     '''def totiente():
