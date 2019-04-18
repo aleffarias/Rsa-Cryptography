@@ -49,15 +49,75 @@ class Rsa(object):
         # Generate e |1 < e < phi and coprime
         while True:
             e = randrange(2 , phi)
-            if ((Rsa.euclids_algorithm(e, phi) == 1) and (Rsa.is_prime(e) == True)):
+            if (Rsa.euclids_algorithm(e, phi) == 1):
                 break
-        print(p,q,e)
+
+        # Generate private key
+        pk=0
+        while ((pk*e) % phi)!= 1:
+            pk = pk + 1
+
+        print("Sua chave pública é: (%d, %d)" % (n, e))
+
+        # Write the public keys n and e to a file
+        public_k = open('public_keys.txt', 'w')
+        public_k.write(str(n) + '\n')
+        public_k.write(str(e))
+        public_k.close()
+
+        # Write the private key
+        private_k = open('private_keys.txt', 'w')
+        private_k.write(str(n) + '\n')
+        private_k.write(str(pk))
+        private_k.close()
+
+    def encrypt(message, file = 'public_keys.txt'):
+        try:
+            f_open = open(file, 'r')
+
+        except FileNotFoundError:
+            print('Arquivo não encontrado.')
+        else:
+            n = int(f_open.readline())
+            e = int(f_open.readline())
+            f_open.close()
+
+        encrypted_message = []
+
+        for i in range(0, len(message)):
+            cipher = ord(message[i])
+            encrypted_message.append((cipher ** e) % n)
+
+        #encrypted = " ".join(encrypted_message)
+
+        f_encrypted_message = open('encrypted_message.txt', 'w')
+        f_encrypted_message.write(str(encrypted_message))
+        f_encrypted_message.close()
+        return encrypted_message
+
+    def decrypt(encrypted_message):
+        f_open = open('private_keys.txt', 'r')
+        n = int(f_open.readline())
+        pk = int(f_open.readline())
+        f_open.close
+
+        decrypted_message = []
+
+        for i in range(len(encrypted_message)):
+            encrypted_message[i] = (encrypted_message[i]**pk) % n
+            character = chr(encrypted_message)
+            decrypted_message.append(character)
+
+        return decrypted_message
+
+if __name__ == '__main__':
+    Rsa.setup()
+
+    message = input('Digite a mensagem que será criptografada!\n')
+    encry = Rsa.encrypt(message)
+    print('Criptografado: ', encry)
+
+    decry = Rsa.decrypt(encry)
+    print('Descriptografada', decry)
 
 
-    '''def totiente():
-
-    def encrypt():
-
-    def decrypt():'''
-
-Rsa.setup()
