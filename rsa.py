@@ -31,7 +31,7 @@ class Rsa(object):
 
     def generate_prime():
         while True:
-            x = randrange(1,200)
+            x = randrange(1,100)
             if(Rsa.is_prime(x) == True):
                 return x
 
@@ -88,27 +88,49 @@ class Rsa(object):
             cipher = ord(message[i])
             encrypted_message.append((cipher ** e) % n)
 
-        #encrypted = " ".join(encrypted_message)
+        encrypted = "".join(str(encrypted_message))
 
         f_encrypted_message = open('encrypted_message.txt', 'w')
-        f_encrypted_message.write(str(encrypted_message))
+        f_encrypted_message.write(str(encrypted))
         f_encrypted_message.close()
-        return encrypted_message
+        return encrypted
 
-    def decrypt(encrypted_message):
+    def decrypt(encry_message, block_size = 2):
         f_open = open('private_keys.txt', 'r')
         n = int(f_open.readline())
         pk = int(f_open.readline())
         f_open.close
 
+        list_blocks = encry_message.split(',')
+        int_blocks = []
+
+        for s in list_blocks:
+            int_blocks.append(int(s))
+
+        message = ""
+
+        for i in range(len(int_blocks)):
+            int_blocks[i] = (int_blocks[i]**pk) % n
+
+            tmp = ""
+            for c in range(block_size):
+                tmp = chr(int_blocks[i] % 1000) + tmp
+                int_blocks[i] //= 1000
+            message += tmp
+
+
+        return message
+
+        '''encrypted_message = encry_message.split(' ')
         decrypted_message = []
 
         for i in range(len(encrypted_message)):
-            encrypted_message[i] = (encrypted_message[i]**pk) % n
+            result = ((int(encrypted_message[i]))**pk)
+            encrypted_message[i] = result % n
             character = chr(encrypted_message)
             decrypted_message.append(character)
 
-        return decrypted_message
+        return decrypted_message'''
 
 if __name__ == '__main__':
     Rsa.setup()
@@ -117,7 +139,8 @@ if __name__ == '__main__':
     encry = Rsa.encrypt(message)
     print('Criptografado: ', encry)
 
-    decry = Rsa.decrypt(encry)
+    encry_m = input('Digite a mensagem que será descriptografada!\n')
+    decry = Rsa.decrypt(encry_m)
     print('Descriptografada', decry)
 
 
