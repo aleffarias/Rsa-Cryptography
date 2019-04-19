@@ -23,7 +23,7 @@ while True:
         encry_message = input('Digite ou copie a mensagem que será descriptografada separada por espaçamentos\nExemplo: 10 11 30 47\n')
 
         print('\nLendo a chave privada no arquivo private_keys.txt...')
-        print('\nMenssagem descriptografada:\n', Rsa.decrypt(encry_message))
+        print('\nMenssagem descriptografada:', Rsa.decrypt(encry_message))
 
     elif (option == '0'):
         exit()
