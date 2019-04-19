@@ -32,6 +32,7 @@ class Rsa(object):
                 return x
 
     def setup(check):
+        # Generate key automatically
         if check == 1:
             while True:
                 p = Rsa.generate_prime()
@@ -39,43 +40,57 @@ class Rsa(object):
 
                 if p > q:
                     break
-        else:
-            while True:
-                p = int(input('Digite p: '))
-                q = int(input('Digite q: '))
-                if Rsa.is_prime(p) == False or Rsa.is_prime(q) == False:
-                    print('Erro! O número digitado não é primo.')
-                else:
-                    if p > q:
+
+                n = p * q
+                phi = (p-1) * (q-1)
+
+                # Generate e |1 < e < phi and coprime
+                while True:
+                    e = randrange(1 , phi)
+                    if (Rsa.euclids_algorithm(e, phi) == 1):
                         break
 
-        n = p * q
-        phi = (p-1) * (q-1)
+                # Generate private key
+                pk=0
+                while ((pk*e) % phi)!= 1:
+                    pk = pk + 1
 
-        # Generate e |1 < e < phi and coprime
-        while True:
-            e = randrange(1 , phi)
-            if (Rsa.euclids_algorithm(e, phi) == 1):
-                break
+                print("\nSua chave pública é: (%d, %d)" % (n, e))
 
-        # Generate private key
-        pk=0
-        while ((pk*e) % phi)!= 1:
-            pk = pk + 1
+                # Write the public keys n and e to a file
+                public_k = open('public_keys.txt', 'w')
+                public_k.write(str(n) + '\n')
+                public_k.write(str(e))
+                public_k.close()
 
-        print("Sua chave pública é: (%d, %d)" % (n, e))
+                # Write the private key
+                private_k = open('private_keys.txt', 'w')
+                private_k.write(str(n) + '\n')
+                private_k.write(str(pk))
+                private_k.close()
+        else:
+            # User adds keys
+            print('\nDigite a chave pública!')
+            n = int(input('  Digite n (p * q): '))
+            e = int(input('  Digite e (1 < e < phi): '))
 
-        # Write the public keys n and e to a file
-        public_k = open('public_keys.txt', 'w')
-        public_k.write(str(n) + '\n')
-        public_k.write(str(e))
-        public_k.close()
+            print('\nDigite a chave privada!')
+            pk = int(input('\tDigite a chave privada (d): '))
 
-        # Write the private key
-        private_k = open('private_keys.txt', 'w')
-        private_k.write(str(n) + '\n')
-        private_k.write(str(pk))
-        private_k.close()
+            print("\nSua chave pública é: (%d, %d)" % (n, e))
+
+            # Write the public keys n and e to a file
+            public_k = open('public_keys.txt', 'w')
+            public_k.write(str(n) + '\n')
+            public_k.write(str(e))
+            public_k.close()
+
+            # Write the private key
+            private_k = open('private_keys.txt', 'w')
+            private_k.write(str(n) + '\n')
+            private_k.write(str(pk))
+            private_k.close()
+
 
     def encrypt(message, file = 'public_keys.txt'):
         try:
@@ -100,7 +115,7 @@ class Rsa(object):
         f_encrypted_message.write(str(encrypted))
         f_encrypted_message.close()
 
-        print('Menssagem criptografada está salva no arquivo encrypted_message.txt\n')
+        print('Menssagem criptografada está salva no arquivo encrypted_message.txt')
         return encrypted
 
     def decrypt(encry_message, block_size = 2):
