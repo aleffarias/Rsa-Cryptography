@@ -41,33 +41,33 @@ class Rsa(object):
                 if p > q:
                     break
 
-                n = p * q
-                phi = (p-1) * (q-1)
+            n = p * q
+            phi = (p-1) * (q-1)
 
-                # Generate e |1 < e < phi and coprime
-                while True:
-                    e = randrange(1 , phi)
-                    if (Rsa.euclids_algorithm(e, phi) == 1):
-                        break
+            # Generate e |1 < e < phi and coprime
+            while True:
+                e = randrange(1 , phi)
+                if (Rsa.euclids_algorithm(e, phi) == 1):
+                    break
 
-                # Generate private key
-                pk=0
-                while ((pk*e) % phi)!= 1:
-                    pk = pk + 1
+            # Generate private key
+            pk=0
+            while ((pk*e) % phi)!= 1:
+                pk = pk + 1
 
-                print("\nSua chave pública é: (%d, %d)" % (n, e))
+            print("\nSua chave pública é: (%d, %d)" % (n, e))
 
-                # Write the public keys n and e to a file
-                public_k = open('public_keys.txt', 'w')
-                public_k.write(str(n) + '\n')
-                public_k.write(str(e))
-                public_k.close()
+            # Write the public keys n and e to a file
+            public_k = open('public_keys.txt', 'w')
+            public_k.write(str(n) + '\n')
+            public_k.write(str(e))
+            public_k.close()
 
-                # Write the private key
-                private_k = open('private_keys.txt', 'w')
-                private_k.write(str(n) + '\n')
-                private_k.write(str(pk))
-                private_k.close()
+            # Write the private key
+            private_k = open('private_keys.txt', 'w')
+            private_k.write(str(n) + '\n')
+            private_k.write(str(pk))
+            private_k.close()
         else:
             # User adds keys
             print('\nDigite a chave pública!')
@@ -109,10 +109,12 @@ class Rsa(object):
             cipher = ord(message[i])
             encrypted_message.append((cipher ** e) % n)
 
-        encrypted = "".join(str(encrypted_message))
+        #encrypted = " ".join(str(encrypted_message))
+        #encrypted = str(encrypted_message).strip('[]')
+        encrypted = " ".join(map(str, encrypted_message))
 
         f_encrypted_message = open('encrypted_message.txt', 'w')
-        f_encrypted_message.write(str(encrypted))
+        f_encrypted_message.write(encrypted)
         f_encrypted_message.close()
 
         print('Menssagem criptografada está salva no arquivo encrypted_message.txt')
@@ -124,7 +126,7 @@ class Rsa(object):
         pk = int(f_open.readline())
         f_open.close
 
-        list_blocks = encry_message.split(',')
+        list_blocks = encry_message.split(' ')
         int_blocks = []
 
         for s in list_blocks:
