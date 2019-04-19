@@ -20,10 +20,10 @@ while True:
         Rsa.encrypt(message)
 
     elif (option == '3'):
-        encry_message = input('Digite ou copie a mensagem que será descriptografada separada por , e sem []\nExemplo: [10, 20, 30] -> 10, 11, 30\n')
+        encry_message = input('Digite ou copie a mensagem que será descriptografada separada por espaçamentos\nExemplo: 10 11 30 47\n')
 
-        print('Lendo a chave privada no arquivo private_keys.txt...')
-        print('\nMenssagem descriptografada: ', Rsa.decrypt(check, encry_message))
+        print('\nLendo a chave privada no arquivo private_keys.txt...')
+        print('\nMenssagem descriptografada:\n', Rsa.decrypt(encry_message))
 
     elif (option == '0'):
         exit()
