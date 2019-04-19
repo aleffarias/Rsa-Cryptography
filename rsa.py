@@ -55,7 +55,7 @@ class Rsa(object):
             while ((pk*e) % phi)!= 1:
                 pk = pk + 1
 
-            print("\nSua chave pública é: (%d, %d)" % (n, e))
+            print("\nSua chave pública (n, e) é: (%d, %d)" % (n, e))
 
             # Write the public keys n and e to a file
             public_k = open('public_keys.txt', 'w')
@@ -77,7 +77,7 @@ class Rsa(object):
             print('\nDigite a chave privada!')
             pk = int(input('\tDigite a chave privada (d): '))
 
-            print("\nSua chave pública é: (%d, %d)" % (n, e))
+            print("\nSua chave pública (n, e) é: (%d, %d)" % (n, e))
 
             # Write the public keys n and e to a file
             public_k = open('public_keys.txt', 'w')
@@ -142,6 +142,5 @@ class Rsa(object):
                 tmp = chr(int_blocks[i] % 1000) + tmp
                 int_blocks[i] //= 1000
             message += tmp
-
 
         return message
