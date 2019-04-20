@@ -20,10 +20,16 @@ while True:
         Rsa.encrypt(message)
 
     elif (option == '3'):
-        encry_message = input('Digite ou copie a mensagem que será descriptografada separada por espaçamentos\nExemplo: 10 11 30 47\n')
+        check = int(input('\nDeseja adicionar a chave privada?\n(1) Sim - Para digitar a chave privada\n(2) Não - Usa a ultima chave que foi gerada na opçao (1) - Gerar chave\n'))
+        if check == 1:
+            n = int(input('Digite o valor de n: '))
+            pk = int(input('Digite o valor de d (chave privada): '))
+        else:
+            n, pk = 0, 0
+        encry_message = input('Digite ou copie a mensagem que será descriptografada separada por espaçamentos\nExemplo: 10 11 30 47\n\n')
 
         print('\nLendo a chave privada no arquivo private_keys.txt...')
-        print('\nMenssagem descriptografada:', Rsa.decrypt(encry_message))
+        print('\nMenssagem descriptografada:', Rsa.decrypt(n, pk, encry_message))
 
     elif (option == '0'):
         exit()
