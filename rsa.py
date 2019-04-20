@@ -140,12 +140,14 @@ class Rsa(object):
         print('Menssagem criptografada está salva no arquivo encrypted_message.txt')
         return encrypted
 
-    def decrypt(encry_message, block_size = 2):
-        f_open = open('private_keys.txt', 'r')
-        n = int(f_open.readline())
-        pk = int(f_open.readline())
-        f_open.close
-
+    def decrypt(n, pk, encry_message, block_size = 2):
+        print(n, pk)
+        if (n and pk) == 0:
+            f_open = open('private_keys.txt', 'r')
+            n = int(f_open.readline())
+            pk = int(f_open.readline())
+            f_open.close
+        print(n, pk)
         list_blocks = encry_message.split(' ')
         int_blocks = []
 
