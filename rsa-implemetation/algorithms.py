@@ -1,9 +1,11 @@
 from random import randrange
 
 class Algorithms(object):
-    """docstring for ."""
+    """Algoritmos essenciais para a execução da criptografia RSA."""
 
     def euclids_algorithm(a, b):
+        ''' Calcúla o máximo divisor comum de dois inteiros.'''
+
         rest = 1
         while b != 0:
             rest = a % b
@@ -12,6 +14,8 @@ class Algorithms(object):
         return a
 
     def extended_euclids_algorithm(a, b):
+        """Algoritmo de Euclides estendido é usado para calcular o inverso modular de dois inteiros."""
+
         x, old_x = 0, 1
         y, old_y = 1, 0
 
@@ -24,6 +28,7 @@ class Algorithms(object):
         return a, old_x, old_y
 
     def is_prime(num):
+        """Verifica se um número é primo."""
         if num == 2:
             return True
 
@@ -36,6 +41,7 @@ class Algorithms(object):
         return True
 
     def generate_prime():
+        """Gera um número primo aleatório no intervale de 1 a 100."""
         while True:
             x = randrange(1,100)
             if(Algorithms.is_prime(x) == True):

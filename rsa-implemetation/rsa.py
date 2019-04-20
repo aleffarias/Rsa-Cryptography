@@ -2,11 +2,19 @@ from random import randrange
 from algorithms import Algorithms
 
 class Rsa(object):
-    """docstring for RSA."""
+    """Funções para ."""
     '''def __init__(self, message, p, q, n):
         super(RSA, self).__init__()'''
 
     def setup(check):
+        """
+        Cria as chaves pública e privada respeitando as restrições do algoritmo de criptografia RSA.
+        As chaves são escritas nos arquvios public_keys.txt e private_keys.txt.
+
+        Args:
+            check (int): verifica se as chaves seram geradas automaticamente
+                        ou fornecidas pelo usuário.
+        """
         # Generate key automatically
         if check == 1:
 
@@ -71,6 +79,18 @@ class Rsa(object):
 
 
     def encrypt(message, file = 'public_keys.txt'):
+        """
+            Recebe uma string para ser criptografada com as chaves geradas ou fornecidas pelo usuário.
+            Com cada caracter da string (valor ASCII) é feita a operação de pontecia com o número e e o
+            resultado é feito a operção módulo com n.
+
+            Args:
+                message (str): mensagem que será criptografada.
+                file: refere-se ao arquivo onde está salvo a chave pública.
+
+            Retuns:
+                encrypted (str): string referente a mensagem criptografada.
+            """
         try:
             f_open = open(file, 'r')
 
@@ -98,7 +118,21 @@ class Rsa(object):
         print('Menssagem criptografada está salva no arquivo encrypted_message.txt')
         return encrypted
 
-    def decrypt(n, pk, encry_message, block_size = 2):
+    def decrypt(n, pk, encry_message):
+        """
+            A mensagem (string) criptografada é divida por espaçamento e inserida na lista.
+            Para cada caracter é feita uma exponenciação modular onde pk é a chave privada
+            e n é a multiplicação de p e q.
+
+            Args:
+                n (int): n que é gerado de acordo com p e q
+                pk (int): d da chave privada
+                encry_message (str): mensagem criptografada
+
+            Retuns:
+                message (str): mensagem descriptografada
+
+        """
         if (n and pk) == 0:
             f_open = open('private_keys.txt', 'r')
             n = int(f_open.readline())
@@ -117,7 +151,7 @@ class Rsa(object):
             int_blocks[i] = (int_blocks[i]**pk) % n
 
             tmp = ""
-            for c in range(block_size):
+            for c in range(2):
                 tmp = chr(int_blocks[i] % 1000) + tmp
                 int_blocks[i] //= 1000
             message += tmp
