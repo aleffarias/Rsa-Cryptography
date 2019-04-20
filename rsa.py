@@ -13,6 +13,18 @@ class Rsa(object):
             b = rest
         return a
 
+    def extended_euclids_algorithm(a, b):
+        x, old_x = 0, 1
+        y, old_y = 1, 0
+
+        while (b != 0):
+            quotient = a // b
+            a, b = b, a - quotient * b
+            old_x, x = x, old_x - quotient * x
+            old_y, y = y, old_y - quotient * y
+
+        return a, old_x, old_y
+
     def is_prime(num):
         if num == 2:
             return True
@@ -34,12 +46,11 @@ class Rsa(object):
     def setup(check):
         # Generate key automatically
         if check == 1:
-            while True:
-                p = Rsa.generate_prime()
-                q = Rsa.generate_prime()
 
-                if p > q:
-                    break
+            p = Rsa.generate_prime()
+            q = Rsa.generate_prime()
+
+            print("P: %d\nQ: %d" % (p, q))
 
             n = p * q
             phi = (p-1) * (q-1)
@@ -51,9 +62,18 @@ class Rsa(object):
                     break
 
             # Generate private key
-            pk=0
+            gcd, x, y = Rsa.extended_euclids_algorithm(e, phi)
+
+            # make sure d is positive
+            if (x < 0):
+                pk = x + phi
+            else:
+                pk = x
+
+
+            '''pk=0
             while ((pk*e) % phi)!= 1:
-                pk = pk + 1
+                pk = pk + 1'''
 
             print("\nSua chave pública (n, e) é: (%d, %d)" % (n, e))
 
