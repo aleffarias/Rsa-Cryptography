@@ -1,6 +1,12 @@
 from rsa import Rsa
+import os
 
 print('\n\t* RSA ALGORITHM *')
+
+try:
+    os.mkdir('./files')
+except OSError:
+    pass
 
 while True:
     option = input('\nEscolha uma opção:\n(1) - Gerar chaves\n(2) - Criptografar\n(3) - Descriptografar\n(0) - Sair\n')
@@ -16,7 +22,7 @@ while True:
 
     elif (option == '2'):
         message = input('Digite a mensagem que será criptografada!\n')
-        print('\nLendo a chave pública no arquivo public_keys.txt...\nCriptografando a menssagem...')
+        print('\nLendo a chave pública no arquivo /files/public_keys.txt...\nCriptografando a menssagem...')
         Rsa.encrypt(message)
 
     elif (option == '3'):
@@ -28,7 +34,7 @@ while True:
             n, pk = 0, 0
         encry_message = input('Digite ou copie a mensagem que será descriptografada separada por espaçamentos\nExemplo: 10 11 30 47\n\n')
 
-        print('\nLendo a chave privada no arquivo private_keys.txt...')
+        print('\nLendo a chave privada no arquivo /files/private_keys.txt...')
         print('\nMenssagem descriptografada:', Rsa.decrypt(n, pk, encry_message))
 
     elif (option == '0'):

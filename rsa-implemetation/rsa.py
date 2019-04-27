@@ -44,13 +44,13 @@ class Rsa(object):
             print("\nSua chave pública (n, e) é: (%d, %d)" % (n, e))
 
             # Write the public keys n and e to a file
-            public_k = open('public_keys.txt', 'w')
+            public_k = open('files/public_keys.txt', 'w')
             public_k.write(str(n) + '\n')
             public_k.write(str(e))
             public_k.close()
 
             # Write the private key
-            private_k = open('private_keys.txt', 'w')
+            private_k = open('files/private_keys.txt', 'w')
             private_k.write(str(n) + '\n')
             private_k.write(str(pk))
             private_k.close()
@@ -66,19 +66,19 @@ class Rsa(object):
             print("\nSua chave pública (n, e) é: (%d, %d)" % (n, e))
 
             # Write the public keys n and e to a file
-            public_k = open('public_keys.txt', 'w')
+            public_k = open('files/public_keys.txt', 'w')
             public_k.write(str(n) + '\n')
             public_k.write(str(e))
             public_k.close()
 
             # Write the private key
-            private_k = open('private_keys.txt', 'w')
+            private_k = open('files/private_keys.txt', 'w')
             private_k.write(str(n) + '\n')
             private_k.write(str(pk))
             private_k.close()
 
 
-    def encrypt(message, file = 'public_keys.txt'):
+    def encrypt(message, file = 'files/public_keys.txt'):
         """
             Recebe uma string para ser criptografada com as chaves geradas ou fornecidas pelo usuário.
             Com cada caracter da string (valor ASCII) é feita a operação de pontecia com o número e e o
@@ -111,11 +111,11 @@ class Rsa(object):
         #encrypted = str(encrypted_message).strip('[]')
         encrypted = " ".join(map(str, encrypted_message))
 
-        f_encrypted_message = open('encrypted_message.txt', 'w')
+        f_encrypted_message = open('files/encrypted_message.txt', 'w')
         f_encrypted_message.write(encrypted)
         f_encrypted_message.close()
 
-        print('Menssagem criptografada está salva no arquivo encrypted_message.txt')
+        print('Menssagem criptografada está salva em /files/encrypted_message.txt')
         return encrypted
 
     def decrypt(n, pk, encry_message):
@@ -134,7 +134,7 @@ class Rsa(object):
 
         """
         if (n and pk) == 0:
-            f_open = open('private_keys.txt', 'r')
+            f_open = open('files/private_keys.txt', 'r')
             n = int(f_open.readline())
             pk = int(f_open.readline())
             f_open.close
