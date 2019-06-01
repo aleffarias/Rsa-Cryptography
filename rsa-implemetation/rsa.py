@@ -2,9 +2,6 @@ from random import randrange
 from algorithms import Algorithms
 
 class Rsa(object):
-    """Funções para ."""
-    '''def __init__(self, message, p, q, n):
-        super(RSA, self).__init__()'''
 
     def setup(check):
         """
@@ -88,7 +85,7 @@ class Rsa(object):
                 message (str): mensagem que será criptografada.
                 file: refere-se ao arquivo onde está salvo a chave pública.
 
-            Retuns:
+            Returns:
                 encrypted (str): string referente a mensagem criptografada.
             """
         try:
@@ -129,7 +126,7 @@ class Rsa(object):
                 pk (int): d da chave privada
                 encry_message (str): mensagem criptografada
 
-            Retuns:
+            Returns:
                 message (str): mensagem descriptografada
 
         """
